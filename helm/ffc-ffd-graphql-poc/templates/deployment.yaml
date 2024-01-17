@@ -1,0 +1,8 @@
+{{- include "ffc-helm-library.deployment" (list . "ffc-ffd-graphql-poc.deployment") -}}
+{{- define "ffc-ffd-graphql-poc.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "ffc-helm-library.container" (list . "ffc-ffd-graphql-poc.container") }}
+{{- end -}}
