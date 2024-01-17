@@ -1,38 +1,52 @@
 const {
   GraphQLSchema,
   GraphQLObjectType,
-  GraphQLInputObjectType,
   GraphQLString,
   GraphQLInt
 } = require('graphql')
+
+const PersonType = new GraphQLObjectType({
+  name: 'Person',
+  fields: {
+    id: { type: GraphQLInt },
+    fullname: { type: GraphQLString },
+    email: { type: GraphQLString },
+    age: { type: GraphQLInt }
+  }
+})
 
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
       person: {
-        type: GraphQLInputObjectType,
+        type: PersonType, // doesn't response to anything other than GraphQLString
         args: {
           id: { type: GraphQLInt },
-          firstname: { type: GraphQLString },
+          fullname: { type: GraphQLString },
           email: { type: GraphQLString },
           age: { type: GraphQLInt }
         },
-        resolve: (root, { firstname }, request) => {
-          const user = fetchUserFromDatabase(firstname)
-          return user
+        resolve: (root, { fullname }, request) => {
+          const user = fetchUserFromDatabase(fullname)
+          return {
+            id: user.id,
+            fullname: user.fullname,
+            email: user.email,
+            age: user.age
+          }
         }
       }
     }
   })
 })
 
-function fetchUserFromDatabase (firstname) {
+function fetchUserFromDatabase (user) {
   return {
-    id: '24',
-    firstname: 'Rana',
-    email: 'rana@rana.rana',
-    age: '36'
+    id: 24,
+    fullname: 'Rana Salem',
+    email: 'salemrana@email.com',
+    age: 99
   }
 }
 
