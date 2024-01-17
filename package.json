@@ -1,6 +1,6 @@
 {
   "name": "ffc-ffd-graphql-poc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "GraphQL endpoint POC",
   "homepage": "https://github.com/DEFRA/ffc-ffd-graphql-poc",
   "main": "app/index.js",
