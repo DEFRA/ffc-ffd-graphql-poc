@@ -1,5 +1,5 @@
 const { GraphQLObjectType, GraphQLString, GraphQLInt } = require('graphql')
-// const { preferenceType } = require('./preference')
+const { preferenceType } = require('./preference')
 
 const personType = new GraphQLObjectType({
   name: 'Person',
@@ -7,7 +7,8 @@ const personType = new GraphQLObjectType({
     id: { type: GraphQLInt },
     fullname: { type: GraphQLString },
     email: { type: GraphQLString },
-    age: { type: GraphQLInt }
+    age: { type: GraphQLInt },
+    preferences: { type: preferenceType }
   }
 })
 

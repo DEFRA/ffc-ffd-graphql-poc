@@ -5,9 +5,9 @@ const preferenceType = new GraphQLObjectType({
   fields: {
     id: { type: GraphQLInt },
     email: { type: GraphQLBoolean },
-    post: { type: GraphQLBoolean },
+    phone: { type: GraphQLBoolean },
     sms: { type: GraphQLBoolean },
-    phone: { type: GraphQLBoolean }
+    post: { type: GraphQLBoolean }
   }
 })
 
