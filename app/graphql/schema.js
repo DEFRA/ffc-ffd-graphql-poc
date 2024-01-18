@@ -1,58 +1,51 @@
-const {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLInt
-} = require('graphql')
-
-const PersonType = new GraphQLObjectType({
-  name: 'Person',
-  fields: {
-    id: { type: GraphQLInt },
-    fullname: { type: GraphQLString },
-    email: { type: GraphQLString },
-    age: { type: GraphQLInt }
-  }
-})
+const { GraphQLSchema, GraphQLObjectType, GraphQLList, GraphQLInt } = require('graphql')
+const { personType } = require('./person')
+const { preferenceType } = require('./preference')
+const { people: peopleData, preferences: preferenceData } = require('../data')
 
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
       person: {
-        type: PersonType, // doesn't response to anything other than GraphQLString
+        type: personType,
         args: {
-          id: { type: GraphQLInt },
-          fullname: { type: GraphQLString },
-          email: { type: GraphQLString },
-          age: { type: GraphQLInt }
+          id: { type: GraphQLInt }
         },
-        resolve: (root, { fullname }, request) => {
-          const user = fetchUserFromDatabase(fullname)
+        resolve: (root, { id }, request) => {
+          const person = peopleData.find((y) => y.id === id)
           return {
-            id: user.id,
-            fullname: user.fullname,
-            email: user.email,
-            age: user.age
+            id: person.id,
+            fullname: person.fullname,
+            email: person.email,
+            age: person.age
           }
+        }
+      },
+      preferences: {
+        type: preferenceType,
+        args: {
+          id: { type: GraphQLInt }
+        },
+        resolve: (root, { id }, request) => {
+          const preference = preferenceData.find((x) => x.id === id)
+          return {
+            id: preference.id,
+            email: preference.email,
+            phone: preference.phone,
+            sms: preference.sms,
+            post: preference.post
+          }
+        }
+      },
+      allPeople: {
+        type: new GraphQLList(personType),
+        resolve: () => {
+          return peopleData
         }
       }
     }
   })
 })
 
-function fetchUserFromDatabase (user) {
-  return {
-    id: 24,
-    fullname: 'Rana Salem',
-    email: 'salemrana@email.com',
-    age: 99
-  }
-}
-
 module.exports = { schema }
-
-// {id, firstname, email, age}
-// return everything from the db based on user
-// return subset eg only email
-// return from multiple data sources
