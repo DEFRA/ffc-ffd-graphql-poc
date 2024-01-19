@@ -1,6 +1,5 @@
 const { GraphQLSchema, GraphQLObjectType, GraphQLList, GraphQLInt } = require('graphql')
 const { personType } = require('./person')
-// const { preferenceType } = require('./preference')
 const { people: peopleData, preferences: preferenceData } = require('../data')
 
 const schema = new GraphQLSchema({
@@ -13,15 +12,21 @@ const schema = new GraphQLSchema({
           id: { type: GraphQLInt }
         },
         resolve: (root, { id }, request) => {
-          const person = peopleData.find((y) => y.id === id)
-          person.preferences = preferenceData.find((x) => x.id === id)
+          const person = peopleData.find((personObject) => personObject.id === id)
+          person.preferences = preferenceData.find((preferenceObject) => preferenceObject.id === id)
+          console.log(person)
           return person
         }
       },
       allPeople: {
         type: new GraphQLList(personType),
         resolve: () => {
-          return peopleData
+          const result = peopleData.map(personObject => {
+            const preferences = preferenceData.find((preferenceObject) => preferenceObject.id === personObject.id)
+            return { ...personObject, preferences }
+          })
+          console.log(result)
+          return result
         }
       }
     }
