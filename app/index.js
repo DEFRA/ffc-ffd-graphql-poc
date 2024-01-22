@@ -1,5 +1,5 @@
 require('./insights').setup()
-const createServer = require('./server')
+const { createServer } = require('./server')
 
 createServer()
   .then(server => server.start())

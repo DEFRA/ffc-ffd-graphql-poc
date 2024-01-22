@@ -17,13 +17,13 @@ async function createServer () {
     }
   })
 
-  await server.register({ plugin: Graphi, options: { name: 'grahql', schema } })
+  await server.register(require('./plugins/router'))
+  await server.register({ plugin: Graphi, options: { schema } })
 
   // await server.register(require('@hapi/inert'))
   // await server.register(require('@hapi/vision'))
-  await server.register(require('./plugins/router'))
 
   return server
 }
 
-module.exports = createServer
+module.exports = { createServer }

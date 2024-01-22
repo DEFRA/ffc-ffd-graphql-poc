@@ -14,7 +14,6 @@ const schema = new GraphQLSchema({
         resolve: (root, { id }, request) => {
           const person = peopleData.find((personObject) => personObject.id === id)
           person.preferences = preferenceData.find((preferenceObject) => preferenceObject.id === id)
-          console.log(person)
           return person
         }
       },
@@ -25,7 +24,6 @@ const schema = new GraphQLSchema({
             const preferences = preferenceData.find((preferenceObject) => preferenceObject.id === personObject.id)
             return { ...personObject, preferences }
           })
-          console.log(result)
           return result
         }
       }
