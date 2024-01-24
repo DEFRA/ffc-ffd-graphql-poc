@@ -1,5 +1,6 @@
-const { GraphQLObjectType, GraphQLString, GraphQLInt } = require('graphql')
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList } = require('graphql')
 const { preferenceType } = require('./preference')
+const { todoType } = require('./todo')
 
 const personType = new GraphQLObjectType({
   name: 'Person',
@@ -8,7 +9,8 @@ const personType = new GraphQLObjectType({
     fullname: { type: GraphQLString },
     email: { type: GraphQLString },
     age: { type: GraphQLInt },
-    preferences: { type: preferenceType }
+    preferences: { type: preferenceType },
+    todos: { type: new GraphQLList(todoType) }
   }
 })
 

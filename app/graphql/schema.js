@@ -1,3 +1,4 @@
+const wreck = require('@hapi/wreck')
 const { GraphQLSchema, GraphQLObjectType, GraphQLList, GraphQLInt } = require('graphql')
 const { personType } = require('./person')
 const { people: peopleData, preferences: preferenceData } = require('../data')
@@ -11,9 +12,11 @@ const schema = new GraphQLSchema({
         args: {
           id: { type: GraphQLInt }
         },
-        resolve: (root, { id }, request) => {
+        resolve: async (root, { id }, request) => {
+          const { payload: todos } = await wreck.get('https://jsonplaceholder.typicode.com/todos', { json: true })
           const person = peopleData.find((personObject) => personObject.id === id)
           person.preferences = preferenceData.find((preferenceObject) => preferenceObject.id === id)
+          person.todos = todos.filter((todoObject) => todoObject.userId === id)
           return person
         }
       },
