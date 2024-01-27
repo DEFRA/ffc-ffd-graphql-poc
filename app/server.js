@@ -1,15 +1,29 @@
-require('./insights').setup()
 const Hapi = require('@hapi/hapi')
+const Graphi = require('graphi')
+const { schema } = require('./graphql/schema')
 
-const server = Hapi.server({
-  port: process.env.PORT
-})
+async function createServer () {
+  const server = Hapi.server({
+    port: 3000,
+    routes: {
+      validate: {
+        options: {
+          abortEarly: false
+        }
+      }
+    },
+    router: {
+      stripTrailingSlash: true
+    }
+  })
 
-const routes = [].concat(
-  require('./routes/healthy'),
-  require('./routes/healthz')
-)
+  await server.register(require('./plugins/router'))
+  await server.register({ plugin: Graphi, options: { schema } })
 
-server.route(routes)
+  // await server.register(require('@hapi/inert'))
+  // await server.register(require('@hapi/vision'))
 
-module.exports = server
+  return server
+}
+
+module.exports = { createServer }

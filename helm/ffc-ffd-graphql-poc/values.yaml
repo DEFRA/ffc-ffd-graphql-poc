@@ -1,9 +1,9 @@
 environment: production
 environmentCode:
-name: ffc-template-node
-namespace: ffc-demo
-workstream: ffc-demo
-image: ffc-template-node
+name: ffc-ffd-graphql-poc
+namespace: ffc-ffd
+workstream: ffc-ffd
+image: ffc-ffd-graphql-poc
 
 labels:
   component: service
@@ -12,10 +12,10 @@ appInsights:
   connectionString:
 
 containerConfigMap:
-  name: ffc-template-node-config-map
+  name: ffc-ffd-graphql-poc-config-map
 
 containerSecret:
-  name: ffc-template-node-container-secret
+  name: ffc-ffd-graphql-poc-container-secret
   type: Opaque
 
 deployment: {}

@@ -1,0 +1,3 @@
+{{- include "ffc-helm-library.cluster-ip-service" (list . "ffc-ffd-graphql-poc.cluster-ip-service") -}}
+{{- define "ffc-ffd-graphql-poc.cluster-ip-service" -}}
+{{- end -}}
